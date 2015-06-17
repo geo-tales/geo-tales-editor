@@ -1,7 +1,7 @@
 {
   "name": "geo-tales-editor",
   "version": "0.0.0",
-  "description": "The Geo Tales Editor",
+  "description": "The Geo Tales editor",
   "main": "lib/index.js",
   "browserify": {
     "transform": [
@@ -23,6 +23,7 @@
     "release": "npm run test && npm run build && cp -r public/* ../geo-tales.github.io/editor/"
   },
   "author": "Maximilian Antoni <mail@maxantoni.de> (http://maxantoni.de)",
+  "homepage": "https://github.com/geo-tales/geo-tales-editor",
   "license": "MIT",
   "devDependencies": {
     "brfs": "^1.4.0",
@@ -38,5 +39,9 @@
     "sinon": "^1.14.1",
     "uglify-js": "^2.4.23",
     "watchify": "^3.2.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/geo-tales/geo-tales-editor.git"
   }
 }
