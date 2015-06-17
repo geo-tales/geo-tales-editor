@@ -39,6 +39,10 @@ describe('edit-screen navigate', function () {
     return el;
   }
 
+  function isHidden(query) {
+    return div.querySelector(query).classList.contains('hidden');
+  }
+
   it('does not creates location tracker on create', function () {
     sinon.assert.notCalled(locatify.create);
   });
@@ -48,14 +52,10 @@ describe('edit-screen navigate', function () {
 
     sinon.assert.calledOnce(locatify.create);
     assert.equal(el.value, 'Hide current location');
-    assert.equal(div.querySelector('.current-latitude').classList
-                 .contains('hidden'), false);
-    assert.equal(div.querySelector('.current-longitude').classList
-                 .contains('hidden'), false);
-    assert.equal(div.querySelector('.current-accuracy').classList
-                 .contains('hidden'), false);
-    assert.equal(div.querySelector('.use-location').classList
-                 .contains('hidden'), false);
+    assert.equal(isHidden('.current-latitude'), false);
+    assert.equal(isHidden('.current-longitude'), false);
+    assert.equal(isHidden('.current-accuracy'), false);
+    assert.equal(isHidden('.use-location'), false);
   });
 
   it('destroys location tracker when toggle is clicked again', function () {
@@ -64,14 +64,10 @@ describe('edit-screen navigate', function () {
 
     sinon.assert.calledOnce(tracker.destroy);
     assert.equal(el.value, 'Show current location');
-    assert.equal(div.querySelector('.current-latitude').classList
-                 .contains('hidden'), true);
-    assert.equal(div.querySelector('.current-longitude').classList
-                 .contains('hidden'), true);
-    assert.equal(div.querySelector('.current-accuracy').classList
-                 .contains('hidden'), true);
-    assert.equal(div.querySelector('.use-location').classList
-                 .contains('hidden'), true);
+    assert.equal(isHidden('.current-latitude'), true);
+    assert.equal(isHidden('.current-longitude'), true);
+    assert.equal(isHidden('.current-accuracy'), true);
+    assert.equal(isHidden('.use-location'), true);
   });
 
   it('destroys location tracker on screen switch', function () {
@@ -106,14 +102,10 @@ describe('edit-screen navigate', function () {
     selectType('navigate');
 
     assert.equal(el.value, 'Show current location');
-    assert.equal(div.querySelector('.current-latitude').classList
-                 .contains('hidden'), true);
-    assert.equal(div.querySelector('.current-longitude').classList
-                 .contains('hidden'), true);
-    assert.equal(div.querySelector('.current-accuracy').classList
-                 .contains('hidden'), true);
-    assert.equal(div.querySelector('.use-location').classList
-                 .contains('hidden'), true);
+    assert.equal(isHidden('.current-latitude'), true);
+    assert.equal(isHidden('.current-longitude'), true);
+    assert.equal(isHidden('.current-accuracy'), true);
+    assert.equal(isHidden('.use-location'), true);
   });
 
   it('shows current position from tracker', function () {
@@ -125,9 +117,10 @@ describe('edit-screen navigate', function () {
       accuracy: 5
     });
 
-    assert.equal(div.querySelector('.current-latitude').innerHTML, '6.7890');
-    assert.equal(div.querySelector('.current-longitude').innerHTML, '1.2345');
-    assert.equal(div.querySelector('.current-accuracy').innerHTML, '5');
+    assert.equal(div.querySelector('.current-latitude').textContent, '6.7890');
+    assert.equal(div.querySelector('.current-longitude').textContent,
+                 '1.2345');
+    assert.equal(div.querySelector('.current-accuracy').textContent, '5');
   });
 
   it('uses current location and stops tracking', function () {
@@ -143,14 +136,10 @@ describe('edit-screen navigate', function () {
     assert.equal(div.querySelector('[name=latitude]').value, '6.7890');
     assert.equal(div.querySelector('[name=longitude]').value, '1.2345');
     assert.equal(el.value, 'Show current location');
-    assert.equal(div.querySelector('.current-latitude').classList
-                 .contains('hidden'), true);
-    assert.equal(div.querySelector('.current-longitude').classList
-                 .contains('hidden'), true);
-    assert.equal(div.querySelector('.current-accuracy').classList
-                 .contains('hidden'), true);
-    assert.equal(div.querySelector('.use-location').classList
-                 .contains('hidden'), true);
+    assert.equal(isHidden('.current-latitude'), true);
+    assert.equal(isHidden('.current-longitude'), true);
+    assert.equal(isHidden('.current-accuracy'), true);
+    assert.equal(isHidden('.use-location'), true);
   });
 
 });
