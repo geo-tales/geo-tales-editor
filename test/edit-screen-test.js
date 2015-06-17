@@ -29,15 +29,15 @@ describe('edit-screen', function () {
     var options = div.querySelectorAll('select[name=type] option');
     assert.equal(options.length, 5);
     assert.equal(options[0].value, 'text');
-    assert.equal(options[0].innerHTML, 'Text');
+    assert.equal(options[0].textContent, 'Text');
     assert.equal(options[1].value, 'input');
-    assert.equal(options[1].innerHTML, 'Question &amp; Answer');
+    assert.equal(options[1].textContent, 'Question & Answer');
     assert.equal(options[2].value, 'choices');
-    assert.equal(options[2].innerHTML, 'Multiple Choice');
+    assert.equal(options[2].textContent, 'Multiple Choice');
     assert.equal(options[3].value, 'navigate');
-    assert.equal(options[3].innerHTML, 'Navigation');
+    assert.equal(options[3].textContent, 'Navigation');
     assert.equal(options[4].value, 'finish');
-    assert.equal(options[4].innerHTML, 'Finish');
+    assert.equal(options[4].textContent, 'Finish');
   });
 
   it('selects given type', function () {
