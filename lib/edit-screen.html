@@ -1,0 +1,68 @@
+<form class="editor" action="#" onsubmit="return false;">
+  <label><span class="text">Name:</span>
+    <input type="text" name="screen-name">
+  </label>
+  <label><span class="text">Screen Type:</span>
+    <select name="type">
+      <option value="">-</option>
+    </select>
+  </label>
+  <div class="edit-text">
+    <label>
+      <textarea name="text" cols="30" rows="8"></textarea>
+    </label>
+  </div>
+  <div class="edit-answer">
+    <label><span class="text">Answer:</span>
+      <input type="text" name="answer">
+    </label>
+  </div>
+  <div class="edit-options">
+    <div class="option">
+      <label><span class="text">Option #1</span>
+        <input type="submit" class="remove-option" value="-">
+      </label>
+      <label><span class="text">Option Text:</span>
+        <input type="text" name="option-text">
+      </label>
+      <label><span class="text">Points:</span>
+        <input type="number" name="option-points">
+      </label>
+      <label><span class="text">Next Screen:</span>
+        <select name="next-screen">
+          <option value="">-</option>
+        </select>
+      </label>
+    </div>
+    <input type="submit" class="add-option" value="+">
+  </div>
+  <div class="edit-navigate">
+    <label><span class="text">Latitude:</span>
+      <input type="text" name="latitude">
+      <span class="current-latitude hidden">-</span>
+    </label>
+    <label><span class="text">Longitude:</span>
+      <input type="text" name="longitude">
+      <span class="current-longitude hidden">-</span>
+    </label>
+    <label><span class="text">Radius:</span>
+      <input type="number" name="radius" min="3" max="25"> Meters
+      <span class="current-accuracy hidden">-</span>
+    </label>
+    <label><span class="text">&nbsp;</span>
+      <input type="submit" name="toggle-tracker" value="Show current location">
+    </label>
+    <label><span class="text">&nbsp;</span>
+      <input type="checkbox" name="compass"> Show compass
+    </label>
+    <label><span class="text">&nbsp;</span>
+      <input type="checkbox" name="distance"> Show distance
+    </label>
+    <label><span class="text">&nbsp;</span>
+      <input type="checkbox" name="colors"> Colored background
+    </label>
+    <label><span class="text">Color steps:</span>
+      <input type="number" name="color-steps" min="5" max="50" step="1"> Meters
+    </label>
+  </div>
+</form>
