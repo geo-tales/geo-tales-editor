@@ -54,6 +54,12 @@ body {
   margin: 0 5px;
 }
 
+.editor .toggle-preview {
+  display: block;
+  width: 280px;
+  text-align: right;
+}
+
 .editor .add-option, .editor .remove-option {
   float: right;
   text-align: center;
