@@ -27,6 +27,7 @@ body {
 
 #content {
   padding: 0 10px;
+  width: 300px;
 }
 
 .editor label {
@@ -58,12 +59,25 @@ body {
   display: block;
   width: 280px;
   text-align: right;
+  margin: 0 0 5px 0;
 }
 
 .editor .add-option, .editor .remove-option {
   float: right;
   text-align: center;
-  margin: 0 5px;
+  margin: 0 20px;
+}
+
+.editor .add-option {
+  margin-bottom: 10px;
+}
+
+.editor .edit-options .title {
+  font-weight: bold;
+}
+
+.editor .edit-options hr {
+  clear: right;
 }
 
 .editor .current-latitude, .editor .current-longitude, .editor .current-accuracy {
