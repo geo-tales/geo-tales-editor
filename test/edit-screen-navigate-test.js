@@ -10,7 +10,6 @@ var editScreen = require('../lib/edit-screen');
 
 describe('edit-screen navigate', function () {
   var div;
-  var editor;
   var tracker;
 
   beforeEach(function () {
@@ -18,7 +17,7 @@ describe('edit-screen navigate', function () {
     tracker.destroy = sinon.spy();
     sinon.stub(locatify, 'create').returns(tracker);
     div = document.createElement('div');
-    editor = editScreen.create(div, {
+    editScreen.create(div, {
       type: 'navigate'
     });
   });
