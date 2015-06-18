@@ -142,4 +142,29 @@ describe('edit-screen navigate', function () {
     assert.equal(isHidden('.use-location'), true);
   });
 
+  it('does not show color-steps by default', function () {
+    assert.equal(isHidden('.color-steps'), true);
+  });
+
+  it('shows color-steps when enabed with default value', function () {
+    var colors = div.querySelector('[name=colors]');
+
+    colors.checked = true;
+    colors.onchange();
+
+    assert.equal(isHidden('.color-steps'), false);
+    assert.equal(div.querySelector('[name=color-steps]').value, '5');
+  });
+
+  it('hides color-steps when disabed', function () {
+    var colors = div.querySelector('[name=colors]');
+    colors.checked = true;
+    colors.onchange();
+
+    colors.checked = false;
+    colors.onchange();
+
+    assert.equal(isHidden('.color-steps'), true);
+  });
+
 });
