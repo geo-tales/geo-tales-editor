@@ -10,12 +10,12 @@ var editScreen = require('../lib/edit-screen');
 describe('edit-screen text', function () {
   var div;
 
-  beforeEach(function () {
+  function create(config) {
+    config = config || {};
+    config.type = 'text';
     div = document.createElement('div');
-    editScreen.create(div, {
-      type: 'text'
-    });
-  });
+    editScreen.create(div, config);
+  }
 
   function fakeEvent() {
     return {
@@ -24,6 +24,7 @@ describe('edit-screen text', function () {
   }
 
   it('renders preview', function () {
+    create();
     var event = fakeEvent();
 
     div.querySelector('.edit-text textarea').value = '## Test\n\nFoo';
@@ -40,6 +41,8 @@ describe('edit-screen text', function () {
   });
 
   it('hides preview and shows textarea', function () {
+    create();
+
     div.querySelector('.toggle-preview').onclick(fakeEvent());
     div.querySelector('.toggle-preview').onclick(fakeEvent());
 
@@ -48,6 +51,34 @@ describe('edit-screen text', function () {
     assert.equal(div.querySelector('.edit-text .text-preview').classList
                  .contains('hidden'), true);
     assert.equal(div.querySelector('.toggle-preview').textContent, 'Preview');
+  });
+
+  it('sets screen-name value from config', function () {
+    create({
+      screenName: 'My screen'
+    });
+
+    assert.equal(div.querySelector('[name=screen-name]').value, 'My screen');
+  });
+
+  it('defaults screen-name value to empty string', function () {
+    create();
+
+    assert.equal(div.querySelector('[name=screen-name]').value, '');
+  });
+
+  it('sets text from config', function () {
+    create({
+      text: '## Some text'
+    });
+
+    assert.equal(div.querySelector('[name=text]').textContent, '## Some text');
+  });
+
+  it('defaults text value to empty string', function () {
+    create();
+
+    assert.equal(div.querySelector('[name=text]').textContent, '');
   });
 
 });

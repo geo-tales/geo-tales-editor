@@ -17,14 +17,17 @@ describe('edit-screen navigate', function () {
     tracker.destroy = sinon.spy();
     sinon.stub(locatify, 'create').returns(tracker);
     div = document.createElement('div');
-    editScreen.create(div, {
-      type: 'navigate'
-    });
   });
 
   afterEach(function () {
     locatify.create.restore();
   });
+
+  function create(config) {
+    config = config || {};
+    config.type = 'navigate';
+    editScreen.create(div, config);
+  }
 
   function selectType(type) {
     var typeSelect = div.querySelector('select[name=type]');
@@ -43,10 +46,14 @@ describe('edit-screen navigate', function () {
   }
 
   it('does not creates location tracker on create', function () {
+    create();
+
     sinon.assert.notCalled(locatify.create);
   });
 
   it('creates location tracker on button click', function () {
+    create();
+
     var el = toggleTracker();
 
     sinon.assert.calledOnce(locatify.create);
@@ -58,6 +65,8 @@ describe('edit-screen navigate', function () {
   });
 
   it('destroys location tracker when toggle is clicked again', function () {
+    create();
+
     toggleTracker();
     var el = toggleTracker();
 
@@ -70,6 +79,7 @@ describe('edit-screen navigate', function () {
   });
 
   it('destroys location tracker on screen switch', function () {
+    create();
     toggleTracker();
 
     selectType('text');
@@ -78,6 +88,7 @@ describe('edit-screen navigate', function () {
   });
 
   it('does not destroy location tracker twice in type change', function () {
+    create();
     toggleTracker();
 
     selectType('text');
@@ -87,6 +98,7 @@ describe('edit-screen navigate', function () {
   });
 
   it('does not destroy location tracker twice on toggle click', function () {
+    create();
     toggleTracker();
 
     toggleTracker();
@@ -96,6 +108,7 @@ describe('edit-screen navigate', function () {
   });
 
   it('does not show current location when twiching screen type', function () {
+    create();
     var el = toggleTracker();
     selectType('text');
     selectType('navigate');
@@ -108,6 +121,7 @@ describe('edit-screen navigate', function () {
   });
 
   it('shows current position from tracker', function () {
+    create();
     toggleTracker();
 
     tracker.emit('position', {
@@ -123,6 +137,7 @@ describe('edit-screen navigate', function () {
   });
 
   it('uses current location and stops tracking', function () {
+    create();
     var el = toggleTracker();
     tracker.emit('position', {
       latitude: '6.7890',
@@ -142,10 +157,13 @@ describe('edit-screen navigate', function () {
   });
 
   it('does not show color-steps by default', function () {
+    create();
+
     assert.equal(isHidden('.color-steps'), true);
   });
 
   it('shows color-steps when enabed with default value', function () {
+    create();
     var colors = div.querySelector('[name=colors]');
 
     colors.checked = true;
@@ -156,6 +174,7 @@ describe('edit-screen navigate', function () {
   });
 
   it('hides color-steps when disabed', function () {
+    create();
     var colors = div.querySelector('[name=colors]');
     colors.checked = true;
     colors.onchange();
@@ -164,6 +183,50 @@ describe('edit-screen navigate', function () {
     colors.onchange();
 
     assert.equal(isHidden('.color-steps'), true);
+  });
+
+  it('sets coordinates from config', function () {
+    create({
+      latitude: '1.234',
+      longitude: '1.345',
+      radius: '6'
+    });
+
+    assert.equal(div.querySelector('[name=latitude]').value, '1.234');
+    assert.equal(div.querySelector('[name=longitude]').value, '1.345');
+    assert.equal(div.querySelector('[name=radius]').value, '6');
+  });
+
+  it('defaults coordinates to empty strings', function () {
+    create();
+
+    assert.equal(div.querySelector('[name=latitude]').value, '');
+    assert.equal(div.querySelector('[name=longitude]').value, '');
+    assert.equal(div.querySelector('[name=radius]').value, '');
+  });
+
+  it('checks checkboxes according to config', function () {
+    create({
+      compass: true,
+      distance: true,
+      colorSteps: '5'
+    });
+
+    assert.equal(div.querySelector('[name=compass]').checked, true);
+    assert.equal(div.querySelector('[name=distance]').checked, true);
+    assert.equal(div.querySelector('[name=colors]').checked, true);
+    assert.equal(isHidden('.color-steps'), false);
+    assert.equal(div.querySelector('[name=color-steps]').value, '5');
+  });
+
+  it('defaults checkboxes to not checked', function () {
+    create();
+
+    assert.equal(div.querySelector('[name=compass]').checked, false);
+    assert.equal(div.querySelector('[name=distance]').checked, false);
+    assert.equal(div.querySelector('[name=colors]').checked, false);
+    assert.equal(isHidden('.color-steps'), true);
+    assert.equal(div.querySelector('[name=color-steps]').value, '');
   });
 
 });

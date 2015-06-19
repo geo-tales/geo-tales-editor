@@ -2,9 +2,9 @@
   <label><span class="text">Name:</span>
     <input type="text" name="screen-name">
   </label>
-  <label><span class="text">Screen Type:</span>
+  <label class="screen-type"><span class="text">Screen Type:</span>
     <select name="type">
-      <option value="">-</option>
+      <option>-</option>
     </select>
   </label>
   <div class="edit-text">
@@ -19,14 +19,16 @@
   </div>
   <div class="edit-options">
     <input type="submit" class="add-option" value="+">
-    <hr>
-    <label class="default-next-screen"><span class="text">Default Next Screen:</span>
-      <select name="default-next-screen">
-        <option value="">-</option>
-      </select>
-    </label>
   </div>
   <div class="edit-navigate">
+    <label><span class="text">Location:</span>
+      <select name="location">
+        <option>New Location</option>
+      </select>
+    </label>
+    <label><span class="text">Loc. Name:</span>
+      <input type="text" name="location-name">
+    </label>
     <label><span class="text">Latitude:</span>
       <input type="text" name="latitude">
       <span class="current-latitude hidden">-</span>
@@ -55,7 +57,14 @@
       <input type="checkbox" name="colors"> Colored background
     </label>
     <label class="color-steps hidden"><span class="text">Color steps:</span>
-      <input type="number" name="color-steps" min="5" max="50" step="1" value="5"> Meters
+      <input type="number" name="color-steps" min="5" max="50" step="1"> Meters
+    </label>
+  </div>
+  <div class="edit-next-screen">
+    <label><span class="text">Next Screen:</span>
+      <select name="next-screen">
+        <option>-</option>
+      </select>
     </label>
   </div>
 </form>

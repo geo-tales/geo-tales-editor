@@ -10,24 +10,29 @@ var editScreen = require('../lib/edit-screen');
 describe('edit-screen choices', function () {
   var div;
 
-  beforeEach(function () {
+  function create(config) {
+    config = config || {};
+    config.type = 'choices';
     div = document.createElement('div');
-    editScreen.create(div, {
-      type: 'choices'
-    });
-  });
+    editScreen.create(div, config);
+  }
 
   it('renders one option by default', function () {
+    create();
+
     assert.equal(div.querySelectorAll('.option').length, 1);
   });
 
   it('adds option when clicking +', function () {
+    create();
+
     div.querySelector('.add-option').click();
 
     assert.equal(div.querySelectorAll('.option').length, 2);
   });
 
   it('removes option when clicking -', function () {
+    create();
     div.querySelector('.add-option').click();
 
     div.querySelectorAll('.remove-option')[1].click();
@@ -52,6 +57,8 @@ describe('edit-screen choices', function () {
   }
 
   it('numbers option element names and title', function () {
+    create();
+
     div.querySelector('.add-option').click();
     div.querySelector('.add-option').click();
 
@@ -59,6 +66,8 @@ describe('edit-screen choices', function () {
   });
 
   it('re-numbers existing option element names on remove', function () {
+    create();
+
     div.querySelector('.add-option').click();
     div.querySelector('.add-option').click();
     div.querySelector('.add-option').click();
@@ -67,5 +76,45 @@ describe('edit-screen choices', function () {
 
     assertThreeOptions();
   });
+
+  function assertScreenNameOptions(query) {
+    var options = div.querySelectorAll(query);
+    assert.equal(options.length, 3);
+    assert.equal(options[0].textContent, 'a');
+    assert.equal(options[1].textContent, 'b');
+    assert.equal(options[2].textContent, 'c');
+    assert.equal(options[0].value, 'a');
+    assert.equal(options[1].value, 'b');
+    assert.equal(options[2].value, 'c');
+  }
+
+  it('fills next-screen dropdowns with screenNames from config', function () {
+    create({
+      screenNames: ['a', 'b', 'c']
+    });
+
+    assertScreenNameOptions('[name=next-screen-1] option');
+  });
+
+  it('fills added next-screen dropdowns with screenNames from config',
+    function () {
+      create({
+        screenNames: ['a', 'b', 'c']
+      });
+
+      div.querySelector('.add-option').click();
+
+      assertScreenNameOptions('[name=next-screen-1] option');
+      assertScreenNameOptions('[name=next-screen-2] option');
+    });
+
+  it('fills next-screen dropdowns with screenNames from config',
+    function () {
+      create({
+        screenNames: ['a', 'b', 'c']
+      });
+
+      assertScreenNameOptions('[name=next-screen] option');
+    });
 
 });

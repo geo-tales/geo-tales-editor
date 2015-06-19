@@ -61,6 +61,10 @@ describe('edit-screen', function () {
     assertElementHidden('.edit-answer', hidden);
   }
 
+  function assertNextScreenEditorHidden(hidden) {
+    assertElementHidden('.edit-next-screen', hidden);
+  }
+
   it('shows text editor by default', function () {
     create();
 
@@ -91,7 +95,7 @@ describe('edit-screen', function () {
     assertTextEditorHidden(false);
   });
 
-  it('does not show text editor for type=navigate', function () {
+  it('hides text editor for type=navigate', function () {
     create({ type: 'navigate' });
 
     assertTextEditorHidden(true);
@@ -209,4 +213,33 @@ describe('edit-screen', function () {
     assertElementHidden('.edit-navigate', true);
   });
 
+  it('shows next-screen editor for type=text', function () {
+    create({ type: 'text' });
+
+    assertNextScreenEditorHidden(false);
+  });
+
+  it('shows next-screen editor for type=input', function () {
+    create({ type: 'input' });
+
+    assertNextScreenEditorHidden(false);
+  });
+
+  it('shows next-screen editor for type=choices', function () {
+    create({ type: 'choices' });
+
+    assertNextScreenEditorHidden(false);
+  });
+
+  it('shows next-screen editor for type=navigate', function () {
+    create({ type: 'navigate' });
+
+    assertNextScreenEditorHidden(false);
+  });
+
+  it('hides next-screen editor for type=finish', function () {
+    create({ type: 'finish' });
+
+    assertNextScreenEditorHidden(true);
+  });
 });
