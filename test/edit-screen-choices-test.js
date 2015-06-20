@@ -10,6 +10,10 @@ var editScreen = require('../lib/edit-screen');
 describe('edit-screen choices', function () {
   var div;
 
+  function $(query) {
+    return div.querySelector(query);
+  }
+
   function create(config) {
     config = config || {};
     config.type = 'choices';
@@ -26,14 +30,14 @@ describe('edit-screen choices', function () {
   it('adds option when clicking +', function () {
     create();
 
-    div.querySelector('.add-option').click();
+    $('.add-option').click();
 
     assert.equal(div.querySelectorAll('.option').length, 2);
   });
 
   it('removes option when clicking -', function () {
     create();
-    div.querySelector('.add-option').click();
+    $('.add-option').click();
 
     div.querySelectorAll('.remove-option')[1].click();
 
@@ -45,22 +49,22 @@ describe('edit-screen choices', function () {
     assert.equal(titles[0].textContent, 'Option #1');
     assert.equal(titles[1].textContent, 'Option #2');
     assert.equal(titles[2].textContent, 'Option #3');
-    assert.notEqual(div.querySelector('[name=option-text-1]'), null);
-    assert.notEqual(div.querySelector('[name=option-text-2]'), null);
-    assert.notEqual(div.querySelector('[name=option-text-3]'), null);
-    assert.notEqual(div.querySelector('[name=option-points-1]'), null);
-    assert.notEqual(div.querySelector('[name=option-points-2]'), null);
-    assert.notEqual(div.querySelector('[name=option-points-3]'), null);
-    assert.notEqual(div.querySelector('[name=next-screen-1]'), null);
-    assert.notEqual(div.querySelector('[name=next-screen-2]'), null);
-    assert.notEqual(div.querySelector('[name=next-screen-3]'), null);
+    assert.notEqual($('[name=option-text-1]'), null);
+    assert.notEqual($('[name=option-text-2]'), null);
+    assert.notEqual($('[name=option-text-3]'), null);
+    assert.notEqual($('[name=option-points-1]'), null);
+    assert.notEqual($('[name=option-points-2]'), null);
+    assert.notEqual($('[name=option-points-3]'), null);
+    assert.notEqual($('[name=next-screen-1]'), null);
+    assert.notEqual($('[name=next-screen-2]'), null);
+    assert.notEqual($('[name=next-screen-3]'), null);
   }
 
   it('numbers option element names and title', function () {
     create();
 
-    div.querySelector('.add-option').click();
-    div.querySelector('.add-option').click();
+    $('.add-option').click();
+    $('.add-option').click();
 
     assertThreeOptions();
   });
@@ -68,9 +72,9 @@ describe('edit-screen choices', function () {
   it('re-numbers existing option element names on remove', function () {
     create();
 
-    div.querySelector('.add-option').click();
-    div.querySelector('.add-option').click();
-    div.querySelector('.add-option').click();
+    $('.add-option').click();
+    $('.add-option').click();
+    $('.add-option').click();
 
     div.querySelectorAll('.remove-option')[0].click();
 
@@ -102,7 +106,7 @@ describe('edit-screen choices', function () {
         screenNames: ['a', 'b', 'c']
       });
 
-      div.querySelector('.add-option').click();
+      $('.add-option').click();
 
       assertScreenNameOptions('[name=next-screen-1] option');
       assertScreenNameOptions('[name=next-screen-2] option');
@@ -116,5 +120,38 @@ describe('edit-screen choices', function () {
 
       assertScreenNameOptions('[name=next-screen] option');
     });
+
+  it('selects next-screen according to config.next', function () {
+    create({
+      screenNames: ['a', 'b'],
+      next: 'b'
+    });
+
+    assert.equal($('[name=next-screen] [value=b]').selected, true);
+  });
+
+  it('sets choices from config', function () {
+    create({
+      screenNames: ['a', 'b'],
+      choices: [{
+        text: 'Some text',
+        next: 'b'
+      }, {
+        text: 'Other option',
+        points: 3,
+        next: 'a'
+      }]
+    });
+
+    assert.equal(div.querySelectorAll('.option').length, 2);
+    assert.equal($('[name=option-text-1]').value, 'Some text');
+    assert.equal($('[name=option-text-2]').value, 'Other option');
+    assert.equal($('[name=option-points-1]').value, '');
+    assert.equal($('[name=option-points-2]').value, '3');
+    assert.equal($('[name=next-screen-1] [value=a]').selected, false);
+    assert.equal($('[name=next-screen-1] [value=b]').selected, true);
+    assert.equal($('[name=next-screen-2] [value=a]').selected, true);
+    assert.equal($('[name=next-screen-2] [value=b]').selected, false);
+  });
 
 });
