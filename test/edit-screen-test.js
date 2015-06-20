@@ -242,4 +242,43 @@ describe('edit-screen', function () {
 
     assertNextScreenEditorHidden(true);
   });
+
+  it('disables name if "start"', function () {
+    create({ type: 'text', name: 'start' });
+
+    assert.equal(div.querySelector('[name=screen-name]').disabled, true);
+  });
+
+  it('disables name and type if "finish"', function () {
+    create({ type: 'finish', name: 'finish' });
+
+    assert.equal(div.querySelector('[name=screen-name]').disabled, true);
+    assert.equal(div.querySelector('[name=type]').disabled, true);
+  });
+
+  it('does not show type option "finish" for start screen', function () {
+    create({ type: 'text', name: 'start' });
+
+    assert.equal(div.querySelector('.screen-type option[value=finish]'), null);
+  });
+
+  it('shows type option "finish" for finish screen', function () {
+    create({ type: 'finish', name: 'finish' });
+
+    assert.notEqual(div.querySelector('.screen-type [value=finish]'), null);
+  });
+
+  it('shows type option "finish" for random screen', function () {
+    create({ type: 'answer', name: 'random' });
+
+    assert.notEqual(div.querySelector('.screen-type [value=finish]'), null);
+  });
+
+  it('does not show current screen in next-screen options', function () {
+    create({ type: 'answer', name: 'random', screenNames: ['foo', 'random'] });
+
+    assert.equal(div.querySelector('.next-screen [value=random]'), null);
+    assert.notEqual(div.querySelector('.next-screen [value=foo]'), null);
+  });
+
 });

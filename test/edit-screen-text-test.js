@@ -55,10 +55,22 @@ describe('edit-screen text', function () {
 
   it('sets screen-name value from config', function () {
     create({
-      screenName: 'My screen'
+      name: 'My screen'
     });
 
     assert.equal(div.querySelector('[name=screen-name]').value, 'My screen');
+  });
+
+  function assertScreenNameDisabled(name, disabled) {
+    create({ name: name });
+
+    assert.equal(div.querySelector('[name=screen-name]').disabled, disabled);
+  }
+
+  it('disables screen-name if "start" or "finish"', function () {
+    assertScreenNameDisabled('start', true);
+    assertScreenNameDisabled('finish', true);
+    assertScreenNameDisabled('foo', false);
   });
 
   it('defaults screen-name value to empty string', function () {

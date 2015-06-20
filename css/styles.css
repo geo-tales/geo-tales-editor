@@ -103,3 +103,16 @@ h2 {
 .hidden {
   display: none !important;
 }
+
+.story-editor li {
+  line-height: 2em;
+  list-style-type: none;
+}
+
+.story-editor [name=delete] {
+  float: right;
+}
+
+.story-editor [name=location-add], .story-editor [name=screen-add] {
+  margin-left: 40px;
+}
