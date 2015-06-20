@@ -1,4 +1,4 @@
-/*global describe, it, beforeEach, afterEach*/
+/*global describe, it, beforeEach, afterEach, document*/
 'use strict';
 
 var assert = require('assert');
