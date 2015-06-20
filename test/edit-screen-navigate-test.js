@@ -125,14 +125,15 @@ describe('edit-screen navigate', function () {
     toggleTracker();
 
     tracker.emit('position', {
-      latitude: '6.7890',
-      longitude: '1.2345',
+      latitude: 6.7890,
+      longitude: 1.2345,
       accuracy: 5
     });
 
-    assert.equal(div.querySelector('.current-latitude').textContent, '6.7890');
+    assert.equal(div.querySelector('.current-latitude').textContent,
+                 '6.789000');
     assert.equal(div.querySelector('.current-longitude').textContent,
-                 '1.2345');
+                 '1.234500');
     assert.equal(div.querySelector('.current-accuracy').textContent, '5');
   });
 
@@ -140,15 +141,15 @@ describe('edit-screen navigate', function () {
     create();
     var el = toggleTracker();
     tracker.emit('position', {
-      latitude: '6.7890',
-      longitude: '1.2345',
+      latitude: 6.7890,
+      longitude: 1.2345,
       accuracy: 5
     });
 
     div.querySelector('input[name=use-location]').click();
 
-    assert.equal(div.querySelector('[name=latitude]').value, '6.7890');
-    assert.equal(div.querySelector('[name=longitude]').value, '1.2345');
+    assert.equal(div.querySelector('[name=latitude]').value, '6.789000');
+    assert.equal(div.querySelector('[name=longitude]').value, '1.234500');
     assert.equal(el.value, 'Show current location');
     assert.equal(isHidden('.current-latitude'), true);
     assert.equal(isHidden('.current-longitude'), true);
