@@ -1,0 +1,35 @@
+<div class="edit-location">
+  <label><span class="text">Loc. Name:</span>
+    <input type="text" name="location-name">
+  </label>
+  <label><span class="text">Latitude:</span>
+    <input type="text" name="latitude">
+    <span class="current-latitude hidden">-</span>
+  </label>
+  <label><span class="text">Longitude:</span>
+    <input type="text" name="longitude">
+    <span class="current-longitude hidden">-</span>
+  </label>
+  <label><span class="text">Radius:</span>
+    <input type="number" name="radius" min="3" max="25" value="5"> Meters
+    <span class="current-accuracy hidden">-</span>
+  </label>
+  <label class="use-location hidden"><span class="text">&nbsp;</span>
+    <input type="submit" name="use-location" value="Use current location">
+  </label>
+  <label><span class="text">&nbsp;</span>
+    <input type="submit" name="toggle-tracker" value="Show current location">
+  </label>
+  <label><span class="text">&nbsp;</span>
+    <input type="checkbox" name="compass"> Show compass
+  </label>
+  <label><span class="text">&nbsp;</span>
+    <input type="checkbox" name="distance"> Show distance
+  </label>
+  <label><span class="text">&nbsp;</span>
+    <input type="checkbox" name="colors"> Colored background
+  </label>
+  <label class="color-steps hidden"><span class="text">Color steps:</span>
+    <input type="number" name="color-steps" min="5" max="50" step="1"> Meters
+  </label>
+</div>

@@ -30,6 +30,10 @@ body {
   width: 300px;
 }
 
+h2 {
+  margin-top: 0;
+}
+
 .editor label {
   display: block;
   padding-bottom: 10px;
