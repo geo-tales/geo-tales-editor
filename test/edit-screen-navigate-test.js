@@ -206,11 +206,13 @@ describe('edit-screen navigate', function () {
     assert.equal(div.querySelector('[name=radius]').value, '');
   });
 
-  it('checks checkboxes according to config', function () {
+  it('checks checkboxes according to options', function () {
     create({
-      compass: true,
-      distance: true,
-      colorSteps: '5'
+      options: {
+        compass: true,
+        distance: true,
+        colorSteps: '5'
+      }
     });
 
     assert.equal(div.querySelector('[name=compass]').checked, true);
@@ -220,14 +222,26 @@ describe('edit-screen navigate', function () {
     assert.equal(div.querySelector('[name=color-steps]').value, '5');
   });
 
-  it('defaults checkboxes to not checked', function () {
+  it('defaults checkboxes if no options are given', function () {
     create();
 
-    assert.equal(div.querySelector('[name=compass]').checked, false);
-    assert.equal(div.querySelector('[name=distance]').checked, false);
+    assert.equal(div.querySelector('[name=compass]').checked, true);
+    assert.equal(div.querySelector('[name=distance]').checked, true);
     assert.equal(div.querySelector('[name=colors]').checked, false);
     assert.equal(isHidden('.color-steps'), true);
     assert.equal(div.querySelector('[name=color-steps]').value, '');
+  });
+
+  it('can disable checkboxes that default to true', function () {
+    create({
+      options: {
+        compass: false,
+        distance: false
+      }
+    });
+
+    assert.equal(div.querySelector('[name=compass]').checked, false);
+    assert.equal(div.querySelector('[name=distance]').checked, false);
   });
 
 });
