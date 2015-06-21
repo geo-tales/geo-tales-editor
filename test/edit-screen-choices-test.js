@@ -18,7 +18,7 @@ describe('edit-screen choices', function () {
     config = config || {};
     config.type = 'choices';
     div = document.createElement('div');
-    editScreen.create(div, config);
+    return editScreen.create(div, config);
   }
 
   it('renders one option by default', function () {
@@ -55,9 +55,9 @@ describe('edit-screen choices', function () {
     assert.notEqual($('[name=option-points-1]'), null);
     assert.notEqual($('[name=option-points-2]'), null);
     assert.notEqual($('[name=option-points-3]'), null);
-    assert.notEqual($('[name=next-screen-1]'), null);
-    assert.notEqual($('[name=next-screen-2]'), null);
-    assert.notEqual($('[name=next-screen-3]'), null);
+    assert.notEqual($('[name=option-next-screen-1]'), null);
+    assert.notEqual($('[name=option-next-screen-2]'), null);
+    assert.notEqual($('[name=option-next-screen-3]'), null);
   }
 
   it('numbers option element names and title', function () {
@@ -83,24 +83,27 @@ describe('edit-screen choices', function () {
 
   function assertScreenNameOptions(query) {
     var options = div.querySelectorAll(query);
-    assert.equal(options.length, 3);
-    assert.equal(options[0].textContent, 'a');
-    assert.equal(options[1].textContent, 'b');
-    assert.equal(options[2].textContent, 'c');
-    assert.equal(options[0].value, 'a');
-    assert.equal(options[1].value, 'b');
-    assert.equal(options[2].value, 'c');
+    assert.equal(options.length, 4);
+    assert.equal(options[0].textContent, 'None');
+    assert.equal(options[1].textContent, 'a');
+    assert.equal(options[2].textContent, 'b');
+    assert.equal(options[3].textContent, 'c');
+    assert.equal(options[0].value, '');
+    assert.equal(options[1].value, 'a');
+    assert.equal(options[2].value, 'b');
+    assert.equal(options[3].value, 'c');
   }
 
-  it('fills next-screen dropdowns with screenNames from config', function () {
-    create({
-      screenNames: ['a', 'b', 'c']
+  it('fills option-next-screen dropdowns with screenNames from config',
+    function () {
+      create({
+        screenNames: ['a', 'b', 'c']
+      });
+
+      assertScreenNameOptions('[name=option-next-screen-1] option');
     });
 
-    assertScreenNameOptions('[name=next-screen-1] option');
-  });
-
-  it('fills added next-screen dropdowns with screenNames from config',
+  it('fills added option-next-screen dropdowns with screenNames from config',
     function () {
       create({
         screenNames: ['a', 'b', 'c']
@@ -108,8 +111,8 @@ describe('edit-screen choices', function () {
 
       $('.add-option').click();
 
-      assertScreenNameOptions('[name=next-screen-1] option');
-      assertScreenNameOptions('[name=next-screen-2] option');
+      assertScreenNameOptions('[name=option-next-screen-1] option');
+      assertScreenNameOptions('[name=option-next-screen-2] option');
     });
 
   it('fills next-screen dropdowns with screenNames from config',
@@ -148,10 +151,44 @@ describe('edit-screen choices', function () {
     assert.equal($('[name=option-text-2]').value, 'Other option');
     assert.equal($('[name=option-points-1]').value, '');
     assert.equal($('[name=option-points-2]').value, '3');
-    assert.equal($('[name=next-screen-1] [value=a]').selected, false);
-    assert.equal($('[name=next-screen-1] [value=b]').selected, true);
-    assert.equal($('[name=next-screen-2] [value=a]').selected, true);
-    assert.equal($('[name=next-screen-2] [value=b]').selected, false);
+    assert.equal($('[name=option-next-screen-1] [value=a]').selected, false);
+    assert.equal($('[name=option-next-screen-1] [value=b]').selected, true);
+    assert.equal($('[name=option-next-screen-2] [value=a]').selected, true);
+    assert.equal($('[name=option-next-screen-2] [value=b]').selected, false);
+  });
+
+  it('saves screen', function () {
+    var editor = create({
+      screenNames: ['go-here', 'go-there']
+    });
+    var spy = sinon.spy();
+    editor.on('screen.save', spy);
+
+    $('.add-option').click();
+    $('[name=screen-name]').value = 'That screen';
+    $('[name=text]').value = '## Some text';
+    $('[name=option-text-1]').value = 'A';
+    $('[name=option-text-2]').value = 'B';
+    $('[name=option-points-1]').value = '5';
+    $('[name=option-points-2]').value = '';
+    $('[name=option-next-screen-1]').value = '';
+    $('[name=option-next-screen-2]').value = 'go-here';
+    $('[name=next-screen]').value = 'go-there';
+    $('.action.save').onclick();
+
+    sinon.assert.calledOnce(spy);
+    sinon.assert.calledWith(spy, 'That screen', {
+      type: 'choices',
+      text: '## Some text',
+      choices: [{
+        text: 'A',
+        points: 5
+      }, {
+        text: 'B',
+        next: 'go-here'
+      }],
+      next: 'go-there'
+    });
   });
 
 });

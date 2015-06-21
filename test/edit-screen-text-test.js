@@ -14,7 +14,7 @@ describe('edit-screen text', function () {
     config = config || {};
     config.type = 'text';
     div = document.createElement('div');
-    editScreen.create(div, config);
+    return editScreen.create(div, config);
   }
 
   function fakeEvent() {
@@ -91,6 +91,26 @@ describe('edit-screen text', function () {
     create();
 
     assert.equal(div.querySelector('[name=text]').textContent, '');
+  });
+
+  it('saves screen', function () {
+    var editor = create({
+      screenNames: ['go-here', 'go-there']
+    });
+    var spy = sinon.spy();
+    editor.on('screen.save', spy);
+
+    div.querySelector('[name=screen-name]').value = 'That screen';
+    div.querySelector('[name=text]').value = '## Some text';
+    div.querySelector('[name=next-screen]').value = 'go-there';
+    div.querySelector('.action.save').onclick();
+
+    sinon.assert.calledOnce(spy);
+    sinon.assert.calledWith(spy, 'That screen', {
+      type: 'text',
+      text: '## Some text',
+      next: 'go-there'
+    });
   });
 
 });

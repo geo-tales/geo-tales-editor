@@ -23,26 +23,30 @@ describe('edit-screen navigate', function () {
     locatify.create.restore();
   });
 
+  function $(query) {
+    return div.querySelector(query);
+  }
+
   function create(config) {
     config = config || {};
     config.type = 'navigate';
-    editScreen.create(div, config);
+    return editScreen.create(div, config);
   }
 
   function selectType(type) {
-    var typeSelect = div.querySelector('select[name=type]');
+    var typeSelect = $('select[name=type]');
     typeSelect.value = type;
     typeSelect.onchange();
   }
 
   function toggleTracker() {
-    var el = div.querySelector('input[name=toggle-tracker]');
+    var el = $('input[name=toggle-tracker]');
     el.click();
     return el;
   }
 
   function isHidden(query) {
-    return div.querySelector(query).classList.contains('hidden');
+    return $(query).classList.contains('hidden');
   }
 
   it('does not creates location tracker on create', function () {
@@ -130,11 +134,9 @@ describe('edit-screen navigate', function () {
       accuracy: 5
     });
 
-    assert.equal(div.querySelector('.current-latitude').textContent,
-                 '6.789000');
-    assert.equal(div.querySelector('.current-longitude').textContent,
-                 '1.234500');
-    assert.equal(div.querySelector('.current-accuracy').textContent, '5');
+    assert.equal($('.current-latitude').textContent, '6.789000');
+    assert.equal($('.current-longitude').textContent, '1.234500');
+    assert.equal($('.current-accuracy').textContent, '5');
   });
 
   it('uses current location and stops tracking', function () {
@@ -146,10 +148,10 @@ describe('edit-screen navigate', function () {
       accuracy: 5
     });
 
-    div.querySelector('input[name=use-location]').click();
+    $('input[name=use-location]').click();
 
-    assert.equal(div.querySelector('[name=latitude]').value, '6.789000');
-    assert.equal(div.querySelector('[name=longitude]').value, '1.234500');
+    assert.equal($('[name=latitude]').value, '6.789000');
+    assert.equal($('[name=longitude]').value, '1.234500');
     assert.equal(el.value, 'Show current location');
     assert.equal(isHidden('.current-latitude'), true);
     assert.equal(isHidden('.current-longitude'), true);
@@ -165,18 +167,18 @@ describe('edit-screen navigate', function () {
 
   it('shows color-steps when enabed with default value', function () {
     create();
-    var colors = div.querySelector('[name=colors]');
+    var colors = $('[name=colors]');
 
     colors.checked = true;
     colors.onchange();
 
     assert.equal(isHidden('.color-steps'), false);
-    assert.equal(div.querySelector('[name=color-steps]').value, '5');
+    assert.equal($('[name=color-steps]').value, '5');
   });
 
   it('hides color-steps when disabed', function () {
     create();
-    var colors = div.querySelector('[name=colors]');
+    var colors = $('[name=colors]');
     colors.checked = true;
     colors.onchange();
 
@@ -190,73 +192,67 @@ describe('edit-screen navigate', function () {
     create({
       locations: {
         test: {
-          latitude: '1.234',
-          longitude: '1.345',
-          radius: '6'
+          type: 'circle',
+          center: {
+            latitude: 1.234,
+            longitude: 1.345
+          },
+          radius: 6
         }
       },
       location: 'test'
     });
 
-    assert.equal(div.querySelector('[name=latitude]').value, '1.234');
-    assert.equal(div.querySelector('[name=longitude]').value, '1.345');
-    assert.equal(div.querySelector('[name=radius]').value, '6');
+    assert.equal($('[name=location-name]').value, 'test');
+    assert.equal($('[name=latitude]').value, '1.234');
+    assert.equal($('[name=longitude]').value, '1.345');
+    assert.equal($('[name=radius]').value, '6');
   });
 
   it('defaults coordinates to empty strings', function () {
     create();
 
-    assert.equal(div.querySelector('[name=latitude]').value, '');
-    assert.equal(div.querySelector('[name=longitude]').value, '');
-    assert.equal(div.querySelector('[name=radius]').value, '');
+    assert.equal($('[name=latitude]').value, '');
+    assert.equal($('[name=longitude]').value, '');
+    assert.equal($('[name=radius]').value, '');
   });
 
   it('checks checkboxes according to options', function () {
     create({
-      locations: {
-        test: {
-          options: {
-            compass: true,
-            distance: true,
-            colorSteps: '5'
-          }
-        }
-      },
-      location: 'test'
+      options: {
+        compass: true,
+        distance: true,
+        colorSteps: 5
+      }
     });
 
-    assert.equal(div.querySelector('[name=compass]').checked, true);
-    assert.equal(div.querySelector('[name=distance]').checked, true);
-    assert.equal(div.querySelector('[name=colors]').checked, true);
+    assert.equal($('[name=compass]').checked, true);
+    assert.equal($('[name=distance]').checked, true);
+    assert.equal($('[name=colors]').checked, true);
     assert.equal(isHidden('.color-steps'), false);
-    assert.equal(div.querySelector('[name=color-steps]').value, '5');
+    assert.equal($('[name=color-steps]').value, '5');
   });
 
   it('defaults checkboxes if no options are given', function () {
     create();
 
-    assert.equal(div.querySelector('[name=compass]').checked, true);
-    assert.equal(div.querySelector('[name=distance]').checked, true);
-    assert.equal(div.querySelector('[name=colors]').checked, false);
+    assert.equal($('[name=compass]').checked, true);
+    assert.equal($('[name=distance]').checked, true);
+    assert.equal($('[name=colors]').checked, false);
     assert.equal(isHidden('.color-steps'), true);
-    assert.equal(div.querySelector('[name=color-steps]').value, '');
+    assert.equal($('[name=color-steps]').value, '');
   });
 
   it('can disable checkboxes that default to true', function () {
     create({
-      locations: {
-        test: {
-          options: {
-            compass: false,
-            distance: false
-          }
-        }
-      },
-      location: 'test'
+      options: {
+        compass: false,
+        distance: false
+      }
     });
 
-    assert.equal(div.querySelector('[name=compass]').checked, false);
-    assert.equal(div.querySelector('[name=distance]').checked, false);
+    assert.equal($('[name=compass]').checked, false);
+    assert.equal($('[name=distance]').checked, false);
   });
 
   it('shows available locations in location dropdown', function () {
@@ -289,42 +285,157 @@ describe('edit-screen navigate', function () {
     create({
       locations: {
         a: {
-          latitude: '1.234',
-          longitude: '2.345',
-          radius: '5',
-          options: {
-            compass: true,
-            distance: true
-          }
+          type: 'circle',
+          center: {
+            latitude: 1.234,
+            longitude: 2.345
+          },
+          radius: 5
         },
         b: {
-          latitude: '1.345',
-          longitude: '2.456',
-          radius: '7',
-          options: {
-            compass: false,
-            distance: false,
-            colorSteps: '7'
-          }
+          type: 'circle',
+          center: {
+            latitude: 1.345,
+            longitude: 2.456
+          },
+          radius: 7
         }
       },
       location: 'a'
     });
 
-    var colors = div.querySelector('[name=location]');
+    var colors = $('[name=location]');
     colors.value = 'b';
     colors.onchange();
 
-    colors.checked = false;
+    assert.equal($('[name=location-name]').value, 'b');
+    assert.equal($('[name=latitude]').value, '1.345');
+    assert.equal($('[name=longitude]').value, '2.456');
+    assert.equal($('[name=radius]').value, '7');
+  });
+
+  it('sets location-name to empty string for new location', function () {
+    create({
+      locations: {
+        test: {}
+      },
+      location: 'test'
+    });
+
+    var colors = $('[name=location]');
+    colors.value = '+';
     colors.onchange();
-    assert.equal(div.querySelector('[name=latitude]').value, '1.345');
-    assert.equal(div.querySelector('[name=longitude]').value, '2.456');
-    assert.equal(div.querySelector('[name=radius]').value, '7');
-    assert.equal(div.querySelector('[name=compass]').checked, false);
-    assert.equal(div.querySelector('[name=distance]').checked, false);
-    assert.equal(div.querySelector('[name=colors]').checked, true);
-    assert.equal(isHidden('.color-steps'), false);
-    assert.equal(div.querySelector('[name=color-steps]').value, '7');
+
+    assert.equal($('[name=location-name]').value, '');
+  });
+
+  it('saves location', function () {
+    var editor = create({
+      screenNames: ['go-here', 'go-there']
+    });
+    var spy = sinon.spy();
+    editor.on('location.save', spy);
+
+    $('[name=location-name]').value = 'This location';
+    $('[name=latitude]').value = '1.345';
+    $('[name=longitude]').value = '2.456';
+    $('[name=radius]').value = '7';
+    $('.action.save').onclick();
+
+    sinon.assert.calledOnce(spy);
+    sinon.assert.calledWith(spy, 'This location', {
+      type: 'circle',
+      center: {
+        latitude: 1.345,
+        longitude: 2.456
+      },
+      radius: 7
+    });
+  });
+
+  it('renames location', function () {
+    var editor = create({
+      screenNames: ['go-here', 'go-there'],
+      locations: {
+        'This location': {}
+      }
+    });
+    var spy = sinon.spy();
+    editor.on('location.rename', spy);
+
+    $('[name=location]').value = 'This location';
+    $('[name=location-name]').value = 'That location';
+    $('.action.save').onclick();
+
+    sinon.assert.calledOnce(spy);
+    sinon.assert.calledWith(spy, 'This location', 'That location');
+  });
+
+  it('does not rename location if name did not change', function () {
+    var editor = create({
+      screenNames: ['go-here', 'go-there'],
+      locations: {
+        'This location': {}
+      }
+    });
+    var spy = sinon.spy();
+    editor.on('location.rename', spy);
+
+    $('[name=location]').value = 'This location';
+    $('[name=location-name]').value = 'This location';
+    $('.action.save').onclick();
+
+    sinon.assert.notCalled(spy);
+  });
+
+  it('does not rename location if it is a new location', function () {
+    var editor = create({
+      screenNames: ['go-here', 'go-there'],
+      locations: {
+        'This location': {}
+      }
+    });
+    var spy = sinon.spy();
+    editor.on('location.rename', spy);
+
+    $('[name=location]').value = '+';
+    $('[name=location-name]').value = 'That location';
+    $('.action.save').onclick();
+
+    sinon.assert.notCalled(spy);
+  });
+
+  it('saves screen', function () {
+    var editor = create({
+      screenNames: ['go-here', 'go-there'],
+      locations: {
+        'This location': {}
+      }
+    });
+    var spy = sinon.spy();
+    editor.on('screen.save', spy);
+
+    $('[name=screen-name]').value = 'That screen';
+    $('[name=location]').value = 'This location';
+    $('[name=location-name]').value = 'This location';
+    $('[name=compass]').checked = false;
+    $('[name=distance]').checked = false;
+    $('[name=colors]').checked = true;
+    $('[name=color-steps]').value = '7';
+    $('[name=next-screen]').value = 'go-there';
+    $('.action.save').onclick();
+
+    sinon.assert.calledOnce(spy);
+    sinon.assert.calledWith(spy, 'That screen', {
+      type: 'navigate',
+      location: 'This location',
+      options: {
+        compass: false,
+        distance: false,
+        colorSteps: 7
+      },
+      next: 'go-there'
+    });
   });
 
 });

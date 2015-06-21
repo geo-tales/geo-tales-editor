@@ -21,12 +21,26 @@
   <div class="edit-options">
     <input type="submit" class="add-option" value="+">
   </div>
-  <label><span class="text">Location:</span>
-    <select name="location">
-      <option>New Location</option>
-    </select>
-  </label>
   <div class="edit-navigate">
+    <label><span class="text">Location:</span>
+      <select name="location">
+        <option>-</option>
+      </select>
+    </label>
+    <div class="edit-navigate-location">
+    </div>
+    <label><span class="text">&nbsp;</span>
+      <input type="checkbox" name="compass"> Show compass
+    </label>
+    <label><span class="text">&nbsp;</span>
+      <input type="checkbox" name="distance"> Show distance
+    </label>
+    <label><span class="text">&nbsp;</span>
+      <input type="checkbox" name="colors"> Colored background
+    </label>
+    <label class="color-steps hidden"><span class="text">Color steps:</span>
+      <input type="number" name="color-steps" min="5" max="50" step="1"> Meters
+    </label>
   </div>
   <div class="edit-next-screen">
     <label><span class="text">Next Screen:</span>
@@ -34,5 +48,10 @@
         <option>-</option>
       </select>
     </label>
+  </div>
+  <div class="actions">
+    <input type="submit" class="action save" value="Save + Return">
+    <input type="submit" class="action next" value="Save + Next Screen">
+    <input type="submit" class="action cancel" value="Cancel">
   </div>
 </form>

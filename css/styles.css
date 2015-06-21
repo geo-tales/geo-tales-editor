@@ -31,6 +31,7 @@ body {
 }
 
 h2 {
+  text-align: center;
   margin-top: 0;
 }
 
@@ -58,7 +59,7 @@ h2 {
   margin-bottom: 30px;
 }
 
-.editor textarea {
+textarea {
   width: 280px;
   margin: 0 5px;
 }
@@ -98,6 +99,16 @@ h2 {
   margin-left: 100px;
   padding: 5px 10px;
   font-family: monospace;
+}
+
+.actions {
+  margin: 25px;
+  text-align: center;
+}
+
+.actions .action {
+  margin: 5px;
+  width: 200px;
 }
 
 .hidden {
