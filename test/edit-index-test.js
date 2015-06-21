@@ -3,16 +3,16 @@
 
 var assert = require('assert');
 var sinon = require('sinon');
-var editStory = require('../lib/edit-story');
+var editIndex = require('../lib/edit-index');
 
 
-describe('edit-story', function () {
+describe('edit-index', function () {
   var div;
   var api;
 
   beforeEach(function () {
     div = document.createElement('div');
-    api = editStory.create(div, {
+    api = editIndex.create(div, {
       locations: {
         start: {},
         somewhere: {},

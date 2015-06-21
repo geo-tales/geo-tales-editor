@@ -115,15 +115,15 @@ textarea {
   display: none !important;
 }
 
-.story-editor li {
+.editor.index li {
   line-height: 2em;
   list-style-type: none;
 }
 
-.story-editor [name=delete] {
+.editor.index [name=delete] {
   float: right;
 }
 
-.story-editor [name=location-add], .story-editor [name=screen-add] {
+.editor.index [name=location-add], .editor.index [name=screen-add] {
   margin-left: 40px;
 }
