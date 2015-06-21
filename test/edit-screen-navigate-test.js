@@ -281,6 +281,23 @@ describe('edit-screen navigate', function () {
     assert.equal(options[3].selected, false);
   });
 
+  it('does not show "start" location in "start" screen', function () {
+    create({
+      locations: {
+        start: {},
+        a: {},
+        b: {}
+      },
+      name: 'start'
+    });
+    var options = div.querySelectorAll('[name=location] option');
+
+    assert.equal(options.length, 3);
+    assert.equal(options[0].value, '+');
+    assert.equal(options[1].value, 'a');
+    assert.equal(options[2].value, 'b');
+  });
+
   it('sets details of selected location on selection change', function () {
     create({
       locations: {
@@ -304,9 +321,9 @@ describe('edit-screen navigate', function () {
       location: 'a'
     });
 
-    var colors = $('[name=location]');
-    colors.value = 'b';
-    colors.onchange();
+    var location = $('[name=location]');
+    location.value = 'b';
+    location.onchange();
 
     assert.equal($('[name=location-name]').value, 'b');
     assert.equal($('[name=latitude]').value, '1.345');
@@ -322,9 +339,9 @@ describe('edit-screen navigate', function () {
       location: 'test'
     });
 
-    var colors = $('[name=location]');
-    colors.value = '+';
-    colors.onchange();
+    var location = $('[name=location]');
+    location.value = '+';
+    location.onchange();
 
     assert.equal($('[name=location-name]').value, '');
   });
