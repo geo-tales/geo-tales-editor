@@ -188,9 +188,14 @@ describe('edit-screen navigate', function () {
 
   it('sets coordinates from config', function () {
     create({
-      latitude: '1.234',
-      longitude: '1.345',
-      radius: '6'
+      locations: {
+        test: {
+          latitude: '1.234',
+          longitude: '1.345',
+          radius: '6'
+        }
+      },
+      location: 'test'
     });
 
     assert.equal(div.querySelector('[name=latitude]').value, '1.234');
@@ -208,11 +213,16 @@ describe('edit-screen navigate', function () {
 
   it('checks checkboxes according to options', function () {
     create({
-      options: {
-        compass: true,
-        distance: true,
-        colorSteps: '5'
-      }
+      locations: {
+        test: {
+          options: {
+            compass: true,
+            distance: true,
+            colorSteps: '5'
+          }
+        }
+      },
+      location: 'test'
     });
 
     assert.equal(div.querySelector('[name=compass]').checked, true);
@@ -234,14 +244,87 @@ describe('edit-screen navigate', function () {
 
   it('can disable checkboxes that default to true', function () {
     create({
-      options: {
-        compass: false,
-        distance: false
-      }
+      locations: {
+        test: {
+          options: {
+            compass: false,
+            distance: false
+          }
+        }
+      },
+      location: 'test'
     });
 
     assert.equal(div.querySelector('[name=compass]').checked, false);
     assert.equal(div.querySelector('[name=distance]').checked, false);
+  });
+
+  it('shows available locations in location dropdown', function () {
+    create({
+      locations: {
+        a: {},
+        b: {},
+        c: {}
+      },
+      location: 'b'
+    });
+    var options = div.querySelectorAll('[name=location] option');
+
+    assert.equal(options.length, 4);
+    assert.equal(options[0].value, '+');
+    assert.equal(options[1].value, 'a');
+    assert.equal(options[2].value, 'b');
+    assert.equal(options[3].value, 'c');
+    assert.equal(options[0].textContent, 'New Location');
+    assert.equal(options[1].textContent, 'a');
+    assert.equal(options[2].textContent, 'b');
+    assert.equal(options[3].textContent, 'c');
+    assert.equal(options[0].selected, false);
+    assert.equal(options[1].selected, false);
+    assert.equal(options[2].selected, true);
+    assert.equal(options[3].selected, false);
+  });
+
+  it('sets details of selected location on selection change', function () {
+    create({
+      locations: {
+        a: {
+          latitude: '1.234',
+          longitude: '2.345',
+          radius: '5',
+          options: {
+            compass: true,
+            distance: true
+          }
+        },
+        b: {
+          latitude: '1.345',
+          longitude: '2.456',
+          radius: '7',
+          options: {
+            compass: false,
+            distance: false,
+            colorSteps: '7'
+          }
+        }
+      },
+      location: 'a'
+    });
+
+    var colors = div.querySelector('[name=location]');
+    colors.value = 'b';
+    colors.onchange();
+
+    colors.checked = false;
+    colors.onchange();
+    assert.equal(div.querySelector('[name=latitude]').value, '1.345');
+    assert.equal(div.querySelector('[name=longitude]').value, '2.456');
+    assert.equal(div.querySelector('[name=radius]').value, '7');
+    assert.equal(div.querySelector('[name=compass]').checked, false);
+    assert.equal(div.querySelector('[name=distance]').checked, false);
+    assert.equal(div.querySelector('[name=colors]').checked, true);
+    assert.equal(isHidden('.color-steps'), false);
+    assert.equal(div.querySelector('[name=color-steps]').value, '7');
   });
 
 });
