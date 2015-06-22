@@ -19,9 +19,15 @@ describe('edit-index', function () {
         elsewhere: {}
       },
       screens: {
-        start: {},
-        maze: {},
-        finish: {}
+        start: {
+          type: 'text'
+        },
+        maze: {
+          type: 'navigate'
+        },
+        finish: {
+          type: 'finish'
+        }
       }
     });
   });
@@ -37,9 +43,9 @@ describe('edit-index', function () {
   it('renders screens', function () {
     var links = div.querySelectorAll('.screens li a');
     assert.equal(links.length, 3);
-    assert.equal(links[0].textContent, 'start');
-    assert.equal(links[1].textContent, 'maze');
-    assert.equal(links[2].textContent, 'finish');
+    assert.equal(links[0].textContent, 'start (Text)');
+    assert.equal(links[1].textContent, 'maze (Navigation)');
+    assert.equal(links[2].textContent, 'finish (Finish)');
   });
 
   it('emits "location.edit" on location click', function () {

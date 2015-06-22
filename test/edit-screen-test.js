@@ -285,4 +285,31 @@ describe('edit-screen', function () {
     assert.notEqual($('[name=next-screen] [value=foo]'), null);
   });
 
+  it('hides action next button for finish screen', function () {
+    create({ type: 'finish' });
+
+    assert.equal($('.action.next').classList.contains('hidden'), true);
+  });
+
+  it('shows action next button when selecting anything else', function () {
+    create({ type: 'finish' });
+
+    selectType('text');
+    assert.equal($('.action.next').classList.contains('hidden'), false);
+    selectType('input');
+    assert.equal($('.action.next').classList.contains('hidden'), false);
+    selectType('choices');
+    assert.equal($('.action.next').classList.contains('hidden'), false);
+    selectType('navigate');
+    assert.equal($('.action.next').classList.contains('hidden'), false);
+  });
+
+  it('hides action next button when selecting finish', function () {
+    create({ type: 'navigate' });
+
+    selectType('finish');
+
+    assert.equal($('.action.next').classList.contains('hidden'), true);
+  });
+
 });
