@@ -455,4 +455,27 @@ describe('edit-screen navigate', function () {
     });
   });
 
+  it('initializes new location name with screen name', function () {
+    create({
+      name: 'foo'
+    });
+
+    assert.equal($('[name=location-name]').value, 'foo');
+  });
+
+  it('initializes new location name with screen name on switch', function () {
+    create({
+      locations: ['loc'],
+      name: 'foo',
+      location: 'loc'
+    });
+    $('[name=screen-name]').value = 'bar';
+
+    var location = $('[name=location]');
+    location.value = '+';
+    location.onchange();
+
+    assert.equal($('[name=location-name]').value, 'bar');
+  });
+
 });

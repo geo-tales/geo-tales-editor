@@ -198,4 +198,51 @@ describe('edit-story', function () {
     });
   });
 
+  it('initializes first new screen name with "1"', function () {
+    div.querySelector('[name=screen-add]').onclick();
+
+    assert.equal(div.querySelector('[name=screen-name]').value, '1');
+  });
+
+  it('initializes second new screen name with "2"', function () {
+    div.querySelector('[name=screen-add]').onclick();
+    div.querySelector('.action.save').onclick();
+
+    div.querySelector('[name=screen-add]').onclick();
+
+    assert.equal(div.querySelector('[name=screen-name]').value, '2');
+  });
+
+  it('initializes new screen from save and next with "2"', function () {
+    div.querySelector('[name=screen-add]').onclick();
+
+    div.querySelector('.action.next').onclick();
+
+    assert.equal(div.querySelector('[name=screen-name]').value, '2');
+  });
+
+  it('initializes new screen after import with next number', function () {
+    div.querySelector('.action.json').onclick();
+
+    div.querySelector('textarea').value = JSON.stringify({
+      locations: {
+        start: {}
+      },
+      screens: {
+        start: {},
+        '2': {
+          type: 'text'
+        },
+        '4': {
+          type: 'text'
+        }
+      }
+    });
+    div.querySelector('.action.import').onclick();
+
+    div.querySelector('[name=screen-add]').onclick();
+
+    assert.equal(div.querySelector('[name=screen-name]').value, '5');
+  });
+
 });
