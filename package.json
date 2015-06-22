@@ -1,6 +1,6 @@
 {
   "name": "geo-tales-editor",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "The Geo Tales editor",
   "main": "lib/index.js",
   "browserify": {
