@@ -90,7 +90,7 @@ describe('edit-index', function () {
     return element.classList.contains('hidden');
   }
 
-  it('disables start location and start / finish screen delete', function () {
+  it('disables start location and start screen delete', function () {
     var locations = div.querySelectorAll('.locations li [name=delete]');
     var screens = div.querySelectorAll('.screens li [name=delete]');
 
@@ -99,7 +99,7 @@ describe('edit-index', function () {
     assert.equal(isHidden(locations[2]), false);
     assert.equal(isHidden(screens[0]), true);
     assert.equal(isHidden(screens[1]), false);
-    assert.equal(isHidden(screens[2]), true);
+    assert.equal(isHidden(screens[2]), false);
   });
 
   it('emits "location.add" on location add button click', function () {
