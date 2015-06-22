@@ -154,4 +154,48 @@ describe('edit-story', function () {
     assert.equal(story.screens.foo.choices[0].next, 'amazing');
   });
 
+  it('imports location from JSON', function () {
+    div.querySelector('.action.json').onclick();
+
+    div.querySelector('textarea').value = JSON.stringify({
+      locations: {
+        start: {},
+        imported: {}
+      },
+      screens: {
+        start: {}
+      }
+    });
+    div.querySelector('.action.import').onclick();
+
+    var locations = div.querySelectorAll('.locations li a');
+    assert.equal(locations.length, 2);
+    assert.doesNotThrow(function () {
+      locations[1].onclick();
+    });
+  });
+
+  it('imports screen from JSON', function () {
+    div.querySelector('.action.json').onclick();
+
+    div.querySelector('textarea').value = JSON.stringify({
+      locations: {
+        start: {}
+      },
+      screens: {
+        start: {},
+        imported: {
+          type: 'text'
+        }
+      }
+    });
+    div.querySelector('.action.import').onclick();
+
+    var screens = div.querySelectorAll('.screens li a');
+    assert.equal(screens.length, 2);
+    assert.doesNotThrow(function () {
+      screens[1].onclick();
+    });
+  });
+
 });
