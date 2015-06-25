@@ -214,7 +214,12 @@ describe('edit-screen navigate', function () {
 
     assert.equal($('[name=latitude]').value, '');
     assert.equal($('[name=longitude]').value, '');
-    assert.equal($('[name=radius]').value, '');
+  });
+
+  it('defaults radius to 5', function () {
+    create();
+
+    assert.equal($('[name=radius]').value, '5');
   });
 
   it('checks checkboxes according to options', function () {
