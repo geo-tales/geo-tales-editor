@@ -303,6 +303,18 @@ describe('edit-screen navigate', function () {
     assert.equal(options[2].value, 'b');
   });
 
+  it('default location name on "start" screen to "0"', function () {
+    create({
+      locations: {
+        start: {}
+      },
+      name: 'start',
+      type: 'navigate'
+    });
+
+    assert.equal(div.querySelector('[name=location-name]').value, '0');
+  });
+
   it('sets details of selected location on selection change', function () {
     create({
       locations: {
