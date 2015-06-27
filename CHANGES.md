@@ -1,5 +1,11 @@
 # Changes
 
+## 0.0.4
+
+- Set color-steps min to 3
+- Default location radius to 5
+- Default location name on "start" screen to "0"
+
 ## 0.0.3
 
 - Suggest numeric screen names
